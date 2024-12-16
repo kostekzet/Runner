@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
+
+
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private Transform GFX;
     [SerializeField] private float jumpForce = 10f;
@@ -18,6 +20,13 @@ public class PlayerMovement : MonoBehaviour
     private bool isJumping = true;
     private float jumpTimer;
 
+    AudioManager audioManager;
+
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
 
     private void Update()
     {
@@ -26,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
         #region JUMPING
         if (isGrounded && Input.GetButtonDown("Jump"))
         {
+            audioManager.PlaySFX(audioManager.jump);
             isJumping = true;
             rb.velocity = Vector2.up * jumpForce;
         }
@@ -56,6 +66,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (isGrounded && Input.GetButton("Crouch"))
         {
+            audioManager.PlaySFX(audioManager.land);
             GFX.localScale = new Vector3(GFX.localScale.x, crouchHeight, GFX.localScale.z);
         }
         else

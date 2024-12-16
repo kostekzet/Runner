@@ -4,6 +4,12 @@ using UnityEngine;
 
 public class PlayerCollision : MonoBehaviour
 {
+    AudioManager audioManager;
+
+    private void Awake()
+    {
+        audioManager = GameObject.FindGameObjectWithTag("Audio").GetComponent<AudioManager>();
+    }
 
     public void Start()
     {
@@ -17,11 +23,11 @@ public class PlayerCollision : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if(other.transform.tag == "Obstacle")
+        if (other.transform.tag == "Obstacle")
         {
+            audioManager.PlaySFX(audioManager.death);
             gameObject.SetActive(false);
             GameManager.Instance.GameOver();
         }
     }
-
 }
