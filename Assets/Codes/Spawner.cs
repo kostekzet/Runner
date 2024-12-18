@@ -40,10 +40,11 @@ public class Spawner : MonoBehaviour
         }
     }
 
-    private void SpawnLoop() {
+    private void SpawnLoop()
+    {
         timeUntilObstacleSpawn += Time.deltaTime;
 
-        if(timeUntilObstacleSpawn >= _obstacleSpawnTime)
+        if (timeUntilObstacleSpawn >= _obstacleSpawnTime)
         {
             Spawn();
             timeUntilObstacleSpawn = 0f;

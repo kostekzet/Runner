@@ -5,7 +5,6 @@ using UnityEngine.Events;
 
 public class GameManager : MonoBehaviour
 {
-
     #region Singleton
 
     public static GameManager Instance;
@@ -15,6 +14,7 @@ public class GameManager : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -26,10 +26,18 @@ public class GameManager : MonoBehaviour
 
     public float currentScore = 0f;
 
+    public Data data;
+
     public bool isPlaying = false;
 
     public UnityEvent onPlay = new UnityEvent();
     public UnityEvent onGameOver = new UnityEvent();
+
+    private void Start()
+    {
+        data = new Data();
+        data.highscore = PlayerPrefs.GetFloat("HighScore", 0f);
+    }
 
     private void Update()
     {
@@ -43,12 +51,20 @@ public class GameManager : MonoBehaviour
     {
         onPlay.Invoke();
         isPlaying = true;
+        currentScore = 0;
     }
 
     public void GameOver()
     {
         onGameOver.Invoke();
-        currentScore = 0;
+
+        if (data.highscore < currentScore)
+        {
+            data.highscore = currentScore;
+            PlayerPrefs.SetFloat("HighScore", data.highscore);
+            PlayerPrefs.Save();
+        }
+
         isPlaying = false;
     }
 
@@ -56,5 +72,4 @@ public class GameManager : MonoBehaviour
     {
         return Mathf.RoundToInt(currentScore).ToString();
     }
-
 }

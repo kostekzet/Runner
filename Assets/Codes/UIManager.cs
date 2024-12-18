@@ -23,10 +23,15 @@ public class UIManager : MonoBehaviour
 
     public void ActivateGameOverUI()
     {
+        // Prze³¹cz UI
+        if (gameOverUI != null)
+        {
+            gameOverUI.SetActive(true);
+        }
 
-        StartCoroutine(LoadSceneWithDelay(2));
+        // Prze³adowanie sceny Game Over
+        SceneManager.LoadScene(2);
     }
-
     private IEnumerator LoadSceneWithDelay(int sceneIndex)
     {
         if (gameOverUI != null)
